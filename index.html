@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VASILЁK — Бесплатный онлайн-конвертер файлов машинной вышивки</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 16px;
+      background: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    * { box-sizing: border-box; }
+    .brand-header {
+      margin: 10px 0 24px 0;
+      text-align: center;
+    }
+    .brand-name {
+      font-size: 24px;
+      font-weight: 800;
+      color: #2c4373;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+    .brand-desc {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    .vasilek-conv-wrap {
+      width: 100%;
+      max-width: 640px;
+      padding: 32px 24px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(44, 67, 115, 0.08);
+      text-align: center;
+    }
+    .vasilek-conv-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #2c4373;
+      margin: 0 0 8px 0;
+    }
+    .vasilek-conv-sub {
+      font-size: 14px;
+      color: #64748b;
+      margin: 0 0 24px 0;
+      line-height: 1.5;
+    }
+    .vasilek-dropzone {
+      border: 2px dashed #93b0e8;
+      background: #f8faff;
+      border-radius: 14px;
+      padding: 34px 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 20px;
+    }
+    .vasilek-dropzone:hover, .vasilek-dropzone.dragover {
+      border-color: #4a6baf;
+      background: #eef4ff;
+    }
+    .vasilek-drop-icon {
+      font-size: 38px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .vasilek-drop-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #2c4373;
+      margin: 0 0 4px 0;
+    }
+    .vasilek-drop-hint {
+      font-size: 12px;
+      color: #64748b;
+      margin: 0;
+    }
+    .vasilek-file-badge {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      background: #eef4ff;
+      border: 1px solid #c7d9fc;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #1e3a8a;
+      font-weight: 600;
+    }
+    .vasilek-file-remove {
+      background: none;
+      border: none;
+      color: #ef4444;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+    .vasilek-formats-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+    .vasilek-formats-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 540px) {
+      .vasilek-formats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .vasilek-fmt-btn {
+      border: 1.5px solid #cbd5e1;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .vasilek-fmt-btn.active {
+      border-color: #4a6baf;
+      background: #eef4ff;
+      box-shadow: 0 2px 6px rgba(74, 107, 175, 0.18);
+    }
+    .vasilek-fmt-ext {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .vasilek-fmt-btn.active .vasilek-fmt-ext {
+      color: #2c4373;
+    }
+    .vasilek-fmt-brand {
+      font-size: 10px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    .vasilek-submit-btn {
+      width: 100%;
+      padding: 15px 20px;
+      background: #4a6baf;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .vasilek-submit-btn:hover {
+      background: #385491;
+    }
+    .vasilek-submit-btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+    .vasilek-msg {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+    }
+    .vasilek-msg.error {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+    .vasilek-msg.success {
+      background: #f0fdf4;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+    .promo-box {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 13px;
+      color: #64748b;
+    }
+    .promo-link {
+      display: inline-block;
+      margin-top: 8px;
+      color: #4a6baf;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .promo-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="brand-header">
+    <a href="https://vasilek-tm.ru" class="brand-name">VASILЁK</a>
+    <div class="brand-desc">Студия машинной вышивки</div>
+  </div>
+
+  <div class="vasilek-conv-wrap">
+    <h1 class="vasilek-conv-title">Онлайн-конвертер дизайнов вышивки</h1>
+    <p class="vasilek-conv-sub">Переведите файл .DST в формат вашей вышивальной машины бесплатно и без регистрации. Файлы обрабатываются прямо в вашем браузере.</p>
+    
+    <div class="vasilek-dropzone" id="v-dropzone">
+      <span class="vasilek-drop-icon">🧵</span>
+      <p class="vasilek-drop-text">Нажмите, чтобы выбрать файл, или перетащите его сюда</p>
+      <p class="vasilek-drop-hint">Поддерживаются: .DST, .PES, .JEF, .VP3, .EXP (1 файл до 1 МБ)</p>
+      <input type="file" id="v-file-input" accept=".dst,.pes,.jef,.exp" style="display:none;">
+    </div>
+
+    <div class="vasilek-file-badge" id="v-file-badge">
+      <span id="v-file-name">design.dst</span>
+      <button type="button" class="vasilek-file-remove" id="v-file-remove" title="Удалить файл">✕</button>
+    </div>
+
+    <div class="vasilek-formats-label">Выберите нужный формат вашей машины:</div>
+    <div class="vasilek-formats-grid" id="v-formats">
+      <button type="button" class="vasilek-fmt-btn active" data-fmt="pes">
+        <span class="vasilek-fmt-ext">.PES</span>
+        <span class="vasilek-fmt-brand">Brother / Babylock</span>
+      </button>
+      <button type="button" class="vasilek-fmt-btn" data-fmt="jef">
+        <span class="vasilek-fmt-ext">.JEF</span>
+        <span class="vasilek-fmt-brand">Janome / Elna</span>
+      </button>
+      <button type="button" class="vasilek-fmt-btn" data-fmt="vp3">
+        <span class="vasilek-fmt-ext">.VP3</span>
+        <span class="vasilek-fmt-brand">Husqvarna / Pfaff</span>
+      </button>
+      <button type="button" class="vasilek-fmt-btn" data-fmt="exp">
+        <span class="vasilek-fmt-ext">.EXP</span>
+        <span class="vasilek-fmt-brand">Bernina / Melco</span>
+      </button>
+      <button type="button" class="vasilek-fmt-btn" data-fmt="dst">
+        <span class="vasilek-fmt-ext">.DST</span>
+        <span class="vasilek-fmt-brand">Tajima / Универс.</span>
+      </button>
+    </div>
+
+    <button type="button" class="vasilek-submit-btn" id="v-convert-btn" disabled>Конвертировать и скачать</button>
+    <div class="vasilek-msg" id="v-msg"></div>
+
+    <div class="promo-box">
+      Скачали бесплатный дизайн? Посмотрите полную коллекцию авторских схем в нашем магазине:
+      <br>
+      <a href="https://vasilek-tm.ru" target="_blank" class="promo-link">Перейти в каталог VASILЁK →</a>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var currentFile = null;
+    var selectedFmt = "pes";
+    var dropzone = document.getElementById("v-dropzone");
+    var fileInput = document.getElementById("v-file-input");
+    var fileBadge = document.getElementById("v-file-badge");
+    var fileNameEl = document.getElementById("v-file-name");
+    var removeBtn = document.getElementById("v-file-remove");
+    var convertBtn = document.getElementById("v-convert-btn");
+    var msgEl = document.getElementById("v-msg");
+    var fmtBtns = document.querySelectorAll(".vasilek-fmt-btn");
+
+    function showMsg(text, type) {
+      msgEl.textContent = text;
+      msgEl.className = "vasilek-msg " + type;
+      msgEl.style.display = "block";
+    }
+
+    function hideMsg() {
+      msgEl.style.display = "none";
+    }
+
+    function handleFile(file) {
+      hideMsg();
+      if (!file) return;
+      if (file.size > 1048576) {
+        showMsg("Ошибка: размер файла превышает 1 МБ.", "error");
+        return;
+      }
+      var ext = file.name.split('.').pop().toLowerCase();
+      if (ext !== "dst" && ext !== "pes" && ext !== "jef" && ext !== "exp") {
+        showMsg("Ошибка: загрузите исходный файл в формате .dst, .pes, .jef или .exp", "error");
+        return;
+      }
+      currentFile = file;
+      fileNameEl.textContent = file.name + " (" + Math.round(file.size / 1024) + " КБ)";
+      dropzone.style.display = "none";
+      fileBadge.style.display = "flex";
+      convertBtn.disabled = false;
+    }
+
+    dropzone.addEventListener("click", function() { fileInput.click(); });
+    fileInput.addEventListener("change", function(e) {
+      if (e.target.files.length > 0) handleFile(e.target.files.item(0));
+    });
+    dropzone.addEventListener("dragover", function(e) {
+      e.preventDefault();
+      dropzone.classList.add("dragover");
+    });
+    dropzone.addEventListener("dragleave", function() {
+      dropzone.classList.remove("dragover");
+    });
+    dropzone.addEventListener("drop", function(e) {
+      e.preventDefault();
+      dropzone.classList.remove("dragover");
+      if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files.item(0));
+    });
+
+    removeBtn.addEventListener("click", function() {
+      currentFile = null;
+      fileInput.value = "";
+      fileBadge.style.display = "none";
+      dropzone.style.display = "block";
+      convertBtn.disabled = true;
+      hideMsg();
+    });
+
