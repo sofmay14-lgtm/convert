@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VASILЁK — Бесплатный онлайн-конвертер файлов машинной вышивки</title>
+  <title>VASILЁK — Онлайн-конвертер дизайнов машинной вышивки</title>
   <style>
     body {
       margin: 0;
-      padding: 20px 16px;
-      background: #f1f5f9;
+      padding: 24px 16px;
+      background: #f4f6ff;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: #1e293b;
+      color: #1e1b4b;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -19,65 +19,71 @@
     }
     * { box-sizing: border-box; }
     .brand-header {
-      margin: 10px 0 24px 0;
+      margin: 8px 0 24px 0;
       text-align: center;
     }
     .brand-name {
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 800;
-      color: #2c4373;
-      letter-spacing: 1px;
+      color: #3C3795;
+      letter-spacing: 1.5px;
       text-decoration: none;
     }
     .brand-desc {
-      font-size: 13px;
-      color: #64748b;
+      font-size: 14px;
+      color: #6167D5;
       margin-top: 4px;
+      font-weight: 500;
     }
     .vasilek-conv-wrap {
       width: 100%;
       max-width: 640px;
       padding: 32px 24px;
       background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(44, 67, 115, 0.08);
+      border: 1px solid #A8BAFC;
+      border-radius: 20px;
+      box-shadow: 0 12px 32px rgba(60, 55, 149, 0.10);
       text-align: center;
     }
     .vasilek-conv-title {
       font-size: 22px;
       font-weight: 700;
-      color: #2c4373;
+      color: #3C3795;
       margin: 0 0 8px 0;
     }
     .vasilek-conv-sub {
       font-size: 14px;
-      color: #64748b;
+      color: #5b618a;
       margin: 0 0 24px 0;
       line-height: 1.5;
     }
     .vasilek-dropzone {
-      border: 2px dashed #93b0e8;
-      background: #f8faff;
+      border: 2px dashed #868AF5;
+      background: #f8f9ff;
       border-radius: 14px;
-      padding: 34px 16px;
+      padding: 30px 16px;
       cursor: pointer;
       transition: all 0.2s ease;
       margin-bottom: 20px;
     }
     .vasilek-dropzone:hover, .vasilek-dropzone.dragover {
-      border-color: #4a6baf;
-      background: #eef4ff;
+      border-color: #3C3795;
+      background: #eef1ff;
     }
-    .vasilek-drop-icon {
-      font-size: 38px;
-      margin-bottom: 8px;
+    .vasilek-logo-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 12px auto;
       display: block;
+      transition: transform 0.25s ease;
+    }
+    .vasilek-dropzone:hover .vasilek-logo-icon {
+      transform: scale(1.06) rotate(6deg);
     }
     .vasilek-drop-text {
       font-size: 15px;
       font-weight: 600;
-      color: #2c4373;
+      color: #3C3795;
       margin: 0 0 4px 0;
     }
     .vasilek-drop-hint {
@@ -89,13 +95,13 @@
       display: none;
       align-items: center;
       justify-content: space-between;
-      background: #eef4ff;
-      border: 1px solid #c7d9fc;
+      background: #eef1ff;
+      border: 1px solid #A8BAFC;
       padding: 12px 16px;
       border-radius: 10px;
       margin-bottom: 20px;
       font-size: 14px;
-      color: #1e3a8a;
+      color: #3C3795;
       font-weight: 600;
     }
     .vasilek-file-remove {
@@ -109,7 +115,7 @@
     .vasilek-formats-label {
       font-size: 14px;
       font-weight: 600;
-      color: #334155;
+      color: #3C3795;
       margin-bottom: 10px;
       text-align: left;
     }
@@ -135,18 +141,21 @@
       flex-direction: column;
       align-items: center;
     }
+    .vasilek-fmt-btn:hover {
+      border-color: #868AF5;
+    }
     .vasilek-fmt-btn.active {
-      border-color: #4a6baf;
-      background: #eef4ff;
-      box-shadow: 0 2px 6px rgba(74, 107, 175, 0.18);
+      border-color: #6167D5;
+      background: #eef1ff;
+      box-shadow: 0 2px 8px rgba(97, 103, 213, 0.22);
     }
     .vasilek-fmt-ext {
       font-size: 15px;
       font-weight: 700;
-      color: #1e293b;
+      color: #1e1b4b;
     }
     .vasilek-fmt-btn.active .vasilek-fmt-ext {
-      color: #2c4373;
+      color: #3C3795;
     }
     .vasilek-fmt-brand {
       font-size: 10px;
@@ -156,26 +165,26 @@
     .vasilek-submit-btn {
       width: 100%;
       padding: 15px 20px;
-      background: #4a6baf;
+      background: #6167D5;
       color: #ffffff;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: background 0.2s ease, transform 0.1s ease;
     }
-    .vasilek-submit-btn:hover {
-      background: #385491;
+    .vasilek-submit-btn:hover:not(:disabled) {
+      background: #3C3795;
     }
     .vasilek-submit-btn:disabled {
-      background: #94a3b8;
+      background: #A8BAFC;
       cursor: not-allowed;
     }
     .vasilek-msg {
       margin-top: 14px;
       padding: 12px;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 14px;
       display: none;
     }
@@ -185,25 +194,26 @@
       border: 1px solid #fecaca;
     }
     .vasilek-msg.success {
-      background: #f0fdf4;
-      color: #15803d;
-      border: 1px solid #bbf7d0;
+      background: #eef1ff;
+      color: #3C3795;
+      border: 1px solid #868AF5;
     }
     .promo-box {
       margin-top: 24px;
       padding-top: 20px;
       border-top: 1px solid #e2e8f0;
       font-size: 13px;
-      color: #64748b;
+      color: #5b618a;
     }
     .promo-link {
       display: inline-block;
       margin-top: 8px;
-      color: #4a6baf;
-      font-weight: 600;
+      color: #6167D5;
+      font-weight: 700;
       text-decoration: none;
     }
     .promo-link:hover {
+      color: #3C3795;
       text-decoration: underline;
     }
   </style>
@@ -211,8 +221,8 @@
 <body>
 
   <div class="brand-header">
-    <a href="https://vasilek-tm.ru" class="brand-name">VASILЁK</a>
-    <div class="brand-desc">Студия машинной вышивки</div>
+    <a href="https://vk.ru/market-226292480" target="_blank" class="brand-name">VASILЁK</a>
+    <div class="brand-desc">дизайн машинной вышивки</div>
   </div>
 
   <div class="vasilek-conv-wrap">
@@ -220,116 +230,40 @@
     <p class="vasilek-conv-sub">Переведите файл .DST в формат вашей вышивальной машины бесплатно и без регистрации. Файлы обрабатываются прямо в вашем браузере.</p>
     
     <div class="vasilek-dropzone" id="v-dropzone">
-      <span class="vasilek-drop-icon">🧵</span>
-      <p class="vasilek-drop-text">Нажмите, чтобы выбрать файл, или перетащите его сюда</p>
-      <p class="vasilek-drop-hint">Поддерживаются: .DST, .PES, .JEF, .VP3, .EXP (1 файл до 1 МБ)</p>
-      <input type="file" id="v-file-input" accept=".dst,.pes,.jef,.exp" style="display:none;">
-    </div>
-
-    <div class="vasilek-file-badge" id="v-file-badge">
-      <span id="v-file-name">design.dst</span>
-      <button type="button" class="vasilek-file-remove" id="v-file-remove" title="Удалить файл">✕</button>
-    </div>
-
-    <div class="vasilek-formats-label">Выберите нужный формат вашей машины:</div>
-    <div class="vasilek-formats-grid" id="v-formats">
-      <button type="button" class="vasilek-fmt-btn active" data-fmt="pes">
-        <span class="vasilek-fmt-ext">.PES</span>
-        <span class="vasilek-fmt-brand">Brother / Babylock</span>
-      </button>
-      <button type="button" class="vasilek-fmt-btn" data-fmt="jef">
-        <span class="vasilek-fmt-ext">.JEF</span>
-        <span class="vasilek-fmt-brand">Janome / Elna</span>
-      </button>
-      <button type="button" class="vasilek-fmt-btn" data-fmt="vp3">
-        <span class="vasilek-fmt-ext">.VP3</span>
-        <span class="vasilek-fmt-brand">Husqvarna / Pfaff</span>
-      </button>
-      <button type="button" class="vasilek-fmt-btn" data-fmt="exp">
-        <span class="vasilek-fmt-ext">.EXP</span>
-        <span class="vasilek-fmt-brand">Bernina / Melco</span>
-      </button>
-      <button type="button" class="vasilek-fmt-btn" data-fmt="dst">
-        <span class="vasilek-fmt-ext">.DST</span>
-        <span class="vasilek-fmt-brand">Tajima / Универс.</span>
-      </button>
-    </div>
-
-    <button type="button" class="vasilek-submit-btn" id="v-convert-btn" disabled>Конвертировать и скачать</button>
-    <div class="vasilek-msg" id="v-msg"></div>
-
-    <div class="promo-box">
-      Скачали бесплатный дизайн? Посмотрите полную коллекцию авторских схем в нашем магазине:
-      <br>
-      <a href="https://vasilek-tm.ru" target="_blank" class="promo-link">Перейти в каталог VASILЁK →</a>
-    </div>
-  </div>
-
-  <script>
-  (function() {
-    var currentFile = null;
-    var selectedFmt = "pes";
-    var dropzone = document.getElementById("v-dropzone");
-    var fileInput = document.getElementById("v-file-input");
-    var fileBadge = document.getElementById("v-file-badge");
-    var fileNameEl = document.getElementById("v-file-name");
-    var removeBtn = document.getElementById("v-file-remove");
-    var convertBtn = document.getElementById("v-convert-btn");
-    var msgEl = document.getElementById("v-msg");
-    var fmtBtns = document.querySelectorAll(".vasilek-fmt-btn");
-
-    function showMsg(text, type) {
-      msgEl.textContent = text;
-      msgEl.className = "vasilek-msg " + type;
-      msgEl.style.display = "block";
-    }
-
-    function hideMsg() {
-      msgEl.style.display = "none";
-    }
-
-    function handleFile(file) {
-      hideMsg();
-      if (!file) return;
-      if (file.size > 1048576) {
-        showMsg("Ошибка: размер файла превышает 1 МБ.", "error");
-        return;
-      }
-      var ext = file.name.split('.').pop().toLowerCase();
-      if (ext !== "dst" && ext !== "pes" && ext !== "jef" && ext !== "exp") {
-        showMsg("Ошибка: загрузите исходный файл в формате .dst, .pes, .jef или .exp", "error");
-        return;
-      }
-      currentFile = file;
-      fileNameEl.textContent = file.name + " (" + Math.round(file.size / 1024) + " КБ)";
-      dropzone.style.display = "none";
-      fileBadge.style.display = "flex";
-      convertBtn.disabled = false;
-    }
-
-    dropzone.addEventListener("click", function() { fileInput.click(); });
-    fileInput.addEventListener("change", function(e) {
-      if (e.target.files.length > 0) handleFile(e.target.files.item(0));
-    });
-    dropzone.addEventListener("dragover", function(e) {
-      e.preventDefault();
-      dropzone.classList.add("dragover");
-    });
-    dropzone.addEventListener("dragleave", function() {
-      dropzone.classList.remove("dragover");
-    });
-    dropzone.addEventListener("drop", function(e) {
-      e.preventDefault();
-      dropzone.classList.remove("dragover");
-      if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files.item(0));
-    });
-
-    removeBtn.addEventListener("click", function() {
-      currentFile = null;
-      fileInput.value = "";
-      fileBadge.style.display = "none";
-      dropzone.style.display = "block";
-      convertBtn.disabled = true;
-      hideMsg();
-    });
-
+      <!-- Фирменный логотип VASILЁK -->
+      <svg class="vasilek-logo-icon" viewBox="0 0 200 200" xmlns="http://w3.org">
+        <g transform="translate(100,100)">
+          <!-- Светлые задние лепестки (#A8BAFC) -->
+          <g fill="#A8BAFC">
+            <path d="M0,-15 C-14,-48 -28,-74 -22,-90 C-12,-76 -6,-62 0,-52 C6,-62 12,-76 22,-90 C28,-74 14,-48 0,-15 Z" transform="rotate(22.5)"/>
+            <path d="M0,-15 C-14,-48 -28,-74 -22,-90 C-12,-76 -6,-62 0,-52 C6,-62 12,-76 22,-90 C28,-74 14,-48 0,-15 Z" transform="rotate(67.5)"/>
+            <path d="M0,-15 C-14,-48 -28,-74 -22,-90 C-12,-76 -6,-62 0,-52 C6,-62 12,-76 22,-90 C28,-74 14,-48 0,-15 Z" transform="rotate(112.5)"/>
+            <path d="M0,-15 C-14,-48 -28,-74 -22,-90 C-12,-76 -6,-62 0,-52 C6,-62 12,-76 22,-90 C28,-74 14,-48 0,-15 Z" transform="rotate(157.5)"/>
+            <path d="M0,-15 C-14,-48 -28,-74 -22,-90 C-12,-76 -6,-62 0,-52 C6,-62 12,-76 22,-90 C28,-74 14,-48 0,-15 Z" transform="rotate(202.5)"/>
+            <path d="M0,-15 C-14,-48 -28,-74 -22,-90 C-12,-76 -6,-62 0,-52 C6,-62 12,-76 22,-90 C28,-74 14,-48 0,-15 Z" transform="rotate(247.5)"/>
+            <path d="M0,-15 C-14,-48 -28,-74 -22,-90 C-12,-76 -6,-62 0,-52 C6,-62 12,-76 22,-90 C28,-74 14,-48 0,-15 Z" transform="rotate(292.5)"/>
+            <path d="M0,-15 C-14,-48 -28,-74 -22,-90 C-12,-76 -6,-62 0,-52 C6,-62 12,-76 22,-90 C28,-74 14,-48 0,-15 Z" transform="rotate(337.5)"/>
+          </g>
+          <!-- Основные васильковые лепестки (#868AF5) -->
+          <g fill="#868AF5">
+            <path d="M0,-12 C-16,-48 -32,-78 -24,-96 C-12,-80 -6,-64 0,-54 C6,-64 12,-80 24,-96 C32,-78 16,-48 0,-12 Z" transform="rotate(0)"/>
+            <path d="M0,-12 C-16,-48 -32,-78 -24,-96 C-12,-80 -6,-64 0,-54 C6,-64 12,-80 24,-96 C32,-78 16,-48 0,-12 Z" transform="rotate(45)"/>
+            <path d="M0,-12 C-16,-48 -32,-78 -24,-96 C-12,-80 -6,-64 0,-54 C6,-64 12,-80 24,-96 C32,-78 16,-48 0,-12 Z" transform="rotate(90)"/>
+            <path d="M0,-12 C-16,-48 -32,-78 -24,-96 C-12,-80 -6,-64 0,-54 C6,-64 12,-80 24,-96 C32,-78 16,-48 0,-12 Z" transform="rotate(135)"/>
+            <path d="M0,-12 C-16,-48 -32,-78 -24,-96 C-12,-80 -6,-64 0,-54 C6,-64 12,-80 24,-96 C32,-78 16,-48 0,-12 Z" transform="rotate(180)"/>
+            <path d="M0,-12 C-16,-48 -32,-78 -24,-96 C-12,-80 -6,-64 0,-54 C6,-64 12,-80 24,-96 C32,-78 16,-48 0,-12 Z" transform="rotate(225)"/>
+            <path d="M0,-12 C-16,-48 -32,-78 -24,-96 C-12,-80 -6,-64 0,-54 C6,-64 12,-80 24,-96 C32,-78 16,-48 0,-12 Z" transform="rotate(270)"/>
+            <path d="M0,-12 C-16,-48 -32,-78 -24,-96 C-12,-80 -6,-64 0,-54 C6,-64 12,-80 24,-96 C32,-78 16,-48 0,-12 Z" transform="rotate(315)"/>
+          </g>
+          <!-- Средняя корона (#6167D5) -->
+          <g fill="#6167D5">
+            <path d="M0,-6 C-6,-22 -10,-36 -6,-44 C-2,-36 0,-30 0,-26 C0,-30 2,-36 6,-44 C10,-36 6,-22 0,-6 Z" transform="rotate(15)"/>
+            <path d="M0,-6 C-6,-22 -10,-36 -6,-44 C-2,-36 0,-30 0,-26 C0,-30 2,-36 6,-44 C10,-36 6,-22 0,-6 Z" transform="rotate(45)"/>
+            <path d="M0,-6 C-6,-22 -10,-36 -6,-44 C-2,-36 0,-30 0,-26 C0,-30 2,-36 6,-44 C10,-36 6,-22 0,-6 Z" transform="rotate(75)"/>
+            <path d="M0,-6 C-6,-22 -10,-36 -6,-44 C-2,-36 0,-30 0,-26 C0,-30 2,-36 6,-44 C10,-36 6,-22 0,-6 Z" transform="rotate(105)"/>
+            <path d="M0,-6 C-6,-22 -10,-36 -6,-44 C-2,-36 0,-30 0,-26 C0,-30 2,-36 6,-44 C10,-36 6,-22 0,-6 Z" transform="rotate(135)"/>
+            <path d="M0,-6 C-6,-22 -10,-36 -6,-44 C-2,-36 0,-30 0,-26 C0,-30 2,-36 6,-44 C10,-36 6,-22 0,-6 Z" transform="rotate(165)"/>
+            <path d="M0,-6 C-6,-22 -10,-36 -6,-44 C-2,-36 0,-30 0,-26 C0,-30 2,-36 6,-44 C10,-36 6,-22 0,-6 Z" transform="rotate(195)"/>
+            <path d="M0,-6 C-6,-22 -10,-36 -6,-44 C-2,-36 0,-30 0,-26 C0,-30 2,-36 6,-44 C10,-36 6,-22 0,-6 Z" transform="rotate(225)"/>
+            <path d="M0,-6 C-6,-22 -10,-36 -6,-44 C-2,-36 0,-30 0,-26 C0,-30 2,-36 6,-44 C10,-36 6,-22 0,-6 Z" transform="rotate(255)"/>
+            <path d="M0,-6 C-6,-22 -10,-36 -6,-44 C-2,-36 0,-30 0,-26 C0,-30 2,-36 6,-44 C10,-36 6,-22 0,-6 Z" transform="rotate(285)"/>
